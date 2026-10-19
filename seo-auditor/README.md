@@ -28,7 +28,7 @@ An AI agent template that audits published web applications for loading speed, m
 
 ## Model Selection
 
-By default, the agent runs on **Gemini 3.7 Flash** (`antigravity-preview-09-2026`) to deliver detailed reasoning, multi-platform meta tag configurations, and robust code remediations.
+By default, the agent runs on **Gemini 3.8 Flash** (`antigravity-preview-09-2026`) to deliver detailed reasoning, multi-platform meta tag configurations, and robust code remediations.
 
 For high-throughput or latency-sensitive workloads, you can configure the underlying model to **Gemini 3.5 Flash-Lite** via `agent_config` in your interaction request:
 
