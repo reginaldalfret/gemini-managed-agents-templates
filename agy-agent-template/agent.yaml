@@ -1,6 +1,6 @@
 id: "agy-agent-template"
 description: "A general-purpose autonomous agent running in a remote, Google-hosted Linux environment."
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 tools:
   - type: "code_execution"
   - type: "google_search"

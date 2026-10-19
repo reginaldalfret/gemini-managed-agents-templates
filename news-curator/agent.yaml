@@ -1,5 +1,5 @@
 id: news-curator
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 description: "Personalized news curator that runs on a Trigger: sweeps Google News, Hacker News, and Medium for the reader's topics and genres, learns their taste from feedback across runs, and writes a daily curated briefing with trend analysis."
 tools:
   - type: code_execution

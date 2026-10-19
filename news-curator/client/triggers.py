@@ -56,7 +56,7 @@ warnings.filterwarnings("ignore", message="Triggers usage is experimental")
 
 from google import genai
 
-AGENT_ID = "antigravity-preview-05-2026"
+AGENT_ID = "antigravity-preview-09-2026"
 
 # The agent only ever needs the three news sources and the chat platforms it
 # may deliver to — everything else stays unreachable from the sandbox.

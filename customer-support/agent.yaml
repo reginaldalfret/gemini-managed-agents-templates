@@ -1,5 +1,5 @@
 id: customer-support
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 description: "Scans a website to build a custom knowledge base and answer support questions using that content."
 tools:
   - type: code_execution

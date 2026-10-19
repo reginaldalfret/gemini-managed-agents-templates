@@ -1,5 +1,5 @@
 id: data-analyst
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 description: "Delivers interactive business intelligence and data analysis using the Microsoft Northwind dataset."
 tools:
   - type: code_execution

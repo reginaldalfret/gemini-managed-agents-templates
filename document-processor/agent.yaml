@@ -1,5 +1,5 @@
 id: reconciliation-agent
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 description: "Reconciles expenses and invoices, verifies vendors, and creates interactive HTML slideshow reports."
 tools:
   - type: google_search

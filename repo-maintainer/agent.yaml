@@ -1,5 +1,5 @@
 id: repo-maintainer
-base_agent: antigravity-preview-05-2026
+base_agent: antigravity-preview-09-2026
 description: "Analyzes your codebase to identify issues, answer questions, and generate bug-fixing patches."
 tools:
   - type: code_execution
