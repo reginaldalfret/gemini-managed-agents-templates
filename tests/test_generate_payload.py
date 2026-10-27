@@ -121,3 +121,31 @@ def test_build_payload_seeds_interests_default(tmp_path):
 
     targets = [s["target"] for s in payload["environment"]["sources"]]
     assert "/.agents/workspace/interests.json" in targets
+
+
+def test_build_payload_missing_agent_yaml_raises(tmp_path):
+    import pytest
+
+    with pytest.raises(FileNotFoundError, match="agent.yaml not found"):
+        build_payload(config_dir=str(tmp_path), api_key="test-key")
+
+
+def test_build_payload_missing_api_key_raises(tmp_path, monkeypatch):
+    import pytest
+
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    agent_yaml = tmp_path / "agent.yaml"
+    agent_yaml.write_text("id: test-agent\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="GEMINI_API_KEY environment variable not set"):
+        build_payload(config_dir=str(tmp_path), api_key=None)
+
+
+def test_build_payload_empty_yaml_and_null_sources(tmp_path):
+    agent_yaml = tmp_path / "agent.yaml"
+    # Null / empty sources in YAML should not raise TypeError
+    agent_yaml.write_text("id: test-agent\nsources:\nenvironment:\n  type: remote\n  sources:\n", encoding="utf-8")
+
+    payload = build_payload(config_dir=str(tmp_path), api_key="test-key")
+    assert payload["agent"] == "antigravity-preview-09-2026"
+    assert isinstance(payload["environment"]["sources"], list)

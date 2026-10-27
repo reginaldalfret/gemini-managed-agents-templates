@@ -23,11 +23,10 @@ import yaml
 def build_payload(config_dir=".", prompt=None, api_key=None):
     agent_yaml_path = os.path.join(config_dir, "agent.yaml")
     if not os.path.exists(agent_yaml_path):
-        print(f"Error: agent.yaml not found in {config_dir}.", file=sys.stderr)
-        sys.exit(1)
+        raise FileNotFoundError(f"agent.yaml not found in {config_dir}.")
 
     with open(agent_yaml_path, "r", encoding="utf-8") as f:
-        config = yaml.safe_load(f)
+        config = yaml.safe_load(f) or {}
 
     base_agent = config.get("base_agent", "antigravity-preview-09-2026")
     tools = config.get("tools", [])
@@ -38,8 +37,7 @@ def build_payload(config_dir=".", prompt=None, api_key=None):
     # Special credentials source
     key = api_key if api_key is not None else os.environ.get("GEMINI_API_KEY")
     if not key:
-        print("Error: GEMINI_API_KEY environment variable not set.", file=sys.stderr)
-        sys.exit(1)
+        raise ValueError("GEMINI_API_KEY environment variable not set.")
 
     sources.append({
         "type": "inline",
@@ -137,12 +135,12 @@ def build_payload(config_dir=".", prompt=None, api_key=None):
         })
 
     # Merge sources from environment.sources in agent.yaml (e.g. gcs, github)
-    env = config.get("environment", {})
+    env = config.get("environment") or {}
     if isinstance(env, dict) and env.get("type") == "remote":
-        sources.extend(env.get("sources", []))
+        sources.extend(env.get("sources") or [])
 
     # Also merge top-level sources from agent.yaml
-    sources.extend(config.get("sources", []))
+    sources.extend(config.get("sources") or [])
 
     environment_payload = {
         "type": "remote",
@@ -177,8 +175,12 @@ def build_payload(config_dir=".", prompt=None, api_key=None):
 
 def make_payload():
     prompt = sys.argv[1] if len(sys.argv) > 1 else "Hello"
-    payload = build_payload(config_dir=".", prompt=prompt)
-    print(json.dumps(payload, indent=2))
+    try:
+        payload = build_payload(config_dir=".", prompt=prompt)
+        print(json.dumps(payload, indent=2))
+    except (FileNotFoundError, ValueError) as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
